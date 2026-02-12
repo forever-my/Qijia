@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.DementiaPresystem_Pad" parent="android:Theme.Material.Light.NoActionBar" />
+    
+    <!-- 启动画面主题 - 全屏 + 背景色 -->
+    <style name="Theme.DementiaPresystem_Pad.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>
