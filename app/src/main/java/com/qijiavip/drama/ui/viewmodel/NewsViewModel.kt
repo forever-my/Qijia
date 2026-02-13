@@ -51,10 +51,11 @@ class NewsViewModel @Inject constructor(
             _isLoading.value = true
             newsRepository.getNewsList(categoryId, currentPage, 20)
                 .onSuccess { result ->
+                    val filteredList = result.list.filter { !it.coverUrl.isNullOrEmpty() }
                     if (refresh) {
-                        _newsList.value = result.list
+                        _newsList.value = filteredList
                     } else {
-                        _newsList.value = _newsList.value + result.list
+                        _newsList.value = _newsList.value + filteredList
                     }
                     currentPage++
                 }

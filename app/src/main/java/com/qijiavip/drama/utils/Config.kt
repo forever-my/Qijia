@@ -7,9 +7,10 @@ class Config {
         const val XS_APP_KEY = "1a1dc063e8f8d6d75f2d91ded1a870e2"// TODO: 替换为实际的媒体KEY 悬赏蛙媒体密钥
 
         //uni-AD
-        const val UNI_APPID = "__UNI__19C976D"
-        const val UNI_ADID = "120355050801"
-        const val UNI_ADPID="1115660607"
+        const val UNI_APPID = "__UNI__19C976D"//__UNI__19C976D
+        const val UNI_ADID = "120355050801"//120355050801
+        const val UNI_ADPID="1115660607"//1115660607 激励视频
+        const val UNI_ADPID_FEED="1456700647"//信息流广告  左图右文
 
         const val KS_APP_USER_NAME = "your_app_user_name"
         const val KS_APP_USER_AVATAR = "your_app_user_avatar"
@@ -27,7 +28,7 @@ class Config {
         const val WECHAT_APP_SECRET = "YOUR_WECHAT_APP_SECRET" // TODO: 替换为实际的微信AppSecret
         
         // uni-AD广告位ID
-        const val AD_REWARD_VIDEO = "reward_adpid" // TODO: 替换为实际的激励视频广告位ID
+        const val AD_REWARD_VIDEO = "1115660607" // 激励视频广告位ID
         const val AD_INTERSTITIAL = "interstitial_adpid" // TODO: 替换为实际的插屏广告位ID
         const val AD_SPLASH = "splash_adpid" // TODO: 替换为实际的开屏广告位ID
         const val AD_FEED = "feed_adpid" // TODO: 替换为实际的信息流广告位ID

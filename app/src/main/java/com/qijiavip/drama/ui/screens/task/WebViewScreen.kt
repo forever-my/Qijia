@@ -17,7 +17,8 @@ import com.qijiavip.drama.ui.theme.Primary
 fun WebViewScreen(
     url: String,
     title: String = "福利中心",
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    enableScroll: Boolean = true
 ) {
     val state = rememberWebViewState(url)
     val navigator = rememberWebViewNavigator()
@@ -57,6 +58,11 @@ fun WebViewScreen(
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     }
+                }
+                
+                // 禁用滚动
+                if (!enableScroll) {
+                    webView.setOnTouchListener { _, _ -> true }
                 }
                 
                 // 注入JavaScript接口

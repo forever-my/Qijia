@@ -16,11 +16,17 @@ android {
     defaultConfig {
         applicationId = "com.qijiavip.drama"
         minSdk = 24
-        targetSdk = 34  // 暂时使用34，等待广告SDK更新16KB对齐版本
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        // 禁用16KB页面大小检查（临时方案，等待广告SDK更新）
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     signingConfigs {
@@ -45,6 +51,13 @@ android {
             )
         }
     }
+    
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -129,6 +142,13 @@ dependencies {
     // OAID - 获取设备唯一标识
     implementation("com.gitee.li_yu_jiang:Android_CN_OAID:4.2.16")
     
+    // 华夏乐游广告SDK依赖
+    implementation("com.squareup.okhttp3:okhttp:3.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.12.0")
+    implementation("com.google.code.gson:gson:2.8.0")
+    implementation("com.github.bumptech.glide:glide:4.7.1")
+    implementation("commons-codec:commons-codec:1.15")
+
     // 微信SDK
     implementation(libs.wechat.sdk)
 
@@ -140,7 +160,7 @@ dependencies {
         implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
-    
+
     // uni-AD广告SDK（排除快手模块避免冲突）
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"), "exclude" to listOf("ks_adsdk-ad.aar", "uniad-ks-release.aar"))))
     implementation("com.github.bumptech.glide:glide:4.12.0")

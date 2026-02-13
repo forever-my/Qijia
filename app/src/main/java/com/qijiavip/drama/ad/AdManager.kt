@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import io.dcloud.ads.*
@@ -101,7 +105,7 @@ object AdManager {
             // 再加载广告
             val slot = DCloudAdSlot.Builder()
                 .adpid(adpid)
-                .apply { userId?.let { userId(it) } }
+                .userId("user_"+System.currentTimeMillis())
                 .build()
                 
             rewardAd?.load(slot, object : DCRewardAdLoadListener {
@@ -256,70 +260,157 @@ object AdManager {
             }
         }
     }
-}
-
-/**
- * Compose信息流广告组件
- */
-@Composable
-fun FeedAdView(
-    adpid: String,
-    count: Int = 1,
-    onAdLoaded: () -> Unit = {},
-    onAdError: (Int, String) -> Unit = { _, _ -> }
-) {
-    val context = LocalContext.current
-    val activity = context as? Activity ?: return
-    
-    val feedAds = remember { mutableListOf<DCFeedAd>() }
-    
-    DisposableEffect(adpid) {
+    /**
+     * 加载信息流广告（返回广告对象列表）
+     */
+    fun loadFeedAds(
+        activity: Activity,
+        adpid: String,
+        count: Int,
+        onLoaded: (List<DCFeedAd>) -> Unit,
+        onError: (Int, String) -> Unit = { _, _ -> }
+    ) {
         val loader = DCFeedAdLoader(activity)
         val slot = DCloudAdSlot.Builder()
             .adpid(adpid)
             .count(count)
             .build()
-            
+
         loader.load(slot, object : DCFeedAdLoadListener {
             override fun onFeedAdLoad(ads: List<DCFeedAd>) {
                 Log.d("AdManager", "信息流广告加载成功: ${ads.size}条")
-                feedAds.clear()
-                feedAds.addAll(ads)
-                ads.forEach { it.render() }
-                onAdLoaded()
+                onLoaded(ads)
             }
-            
+
             override fun onError(code: Int, message: String, detail: JSONArray?) {
                 Log.e("AdManager", "信息流广告加载失败: $code - $message")
-                onAdError(code, message)
+                onError(code, message)
             }
         })
-        
-        onDispose {
-            feedAds.forEach { it.destroy() }
-            feedAds.clear()
-        }
     }
     
-    AndroidView(
-        factory = { ctx ->
-            android.widget.LinearLayout(ctx).apply {
-                orientation = android.widget.LinearLayout.VERTICAL
-                feedAds.forEach { ad ->
-                    ad.setFeedAdListener(object : DCFeedAdListener {
-                        override fun onRenderSuccess() {
-                            ad.getFeedAdView(activity)?.let { addView(it) }
-                        }
-                        override fun onRenderFail() {}
-                        override fun onShow() {}
-                        override fun onClosed(p0: String?) {
-                        }
-
-                        override fun onClick() {}
-                        override fun onShowError() {}
-                    })
+    /**
+     * 渲染单条信息流广告
+     */
+    @Composable
+    fun SingleFeedAdView(feedAd: DCFeedAd) {
+        val context = LocalContext.current
+        val activity = context as? Activity ?: return
+        
+        AndroidView(
+            factory = { ctx ->
+                val container = android.widget.FrameLayout(ctx).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
                 }
+                
+                feedAd.setFeedAdListener(object : DCFeedAdListener {
+                    override fun onRenderSuccess() {
+                        Log.d("AdManager", "信息流广告渲染成功")
+                        val adView = feedAd.getFeedAdView(activity)
+                        if (adView != null) {
+                            (adView.parent as? ViewGroup)?.removeView(adView)
+                            container.removeAllViews()
+                            container.addView(adView, ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                            ))
+                        }
+                    }
+                    override fun onRenderFail() {
+                        Log.e("AdManager", "信息流广告渲染失败")
+                    }
+                    override fun onShow() {}
+                    override fun onClosed(p0: String?) {}
+                    override fun onClick() {}
+                    override fun onShowError() {}
+                })
+                feedAd.render()
+                
+                container
+            }
+        )
+    }
+    
+    /**
+     * Compose信息流广告组件
+     */
+    @Composable
+    fun FeedAdView(
+        adpid: String,
+        count: Int = 1,
+        onAdLoaded: () -> Unit = {},
+        onAdError: (Int, String) -> Unit = { _, _ -> }
+    ) {
+        val context = LocalContext.current
+        val activity = context as? Activity ?: return
+
+        var adContainer by remember { mutableStateOf<android.widget.LinearLayout?>(null) }
+
+        DisposableEffect(adpid) {
+            val loader = DCFeedAdLoader(activity)
+            val slot = DCloudAdSlot.Builder()
+                .adpid(adpid)
+                .count(count)
+                .build()
+
+            loader.load(slot, object : DCFeedAdLoadListener {
+                override fun onFeedAdLoad(ads: List<DCFeedAd>) {
+                    Log.d("AdManager", "信息流广告加载成功: ${ads.size}条")
+                    ads.forEach { ad ->
+                        ad.setFeedAdListener(object : DCFeedAdListener {
+                            override fun onRenderSuccess() {
+                                Log.d("AdManager", "信息流广告渲染成功")
+                                ad.getFeedAdView(activity)?.let { view ->
+                                    adContainer?.addView(view)
+                                }
+                            }
+                            override fun onRenderFail() {
+                                Log.e("AdManager", "信息流广告渲染失败")
+                            }
+                            override fun onShow() {
+                                Log.d("AdManager", "信息流广告展示成功")
+                            }
+                            override fun onClosed(p0: String?) {}
+                            override fun onClick(
+                            ) {
+                                Log.d("AdManager", "信息流广告点击")
+                            }
+                            override fun onShowError() {
+                                Log.e("AdManager", "信息流广告展示失败")
+                            }
+                        })
+                        ad.render()
+                    }
+                    onAdLoaded()
+                }
+
+                override fun onError(code: Int, message: String, detail: JSONArray?) {
+                    Log.e("AdManager", "信息流广告加载失败: $code - $message")
+                    onAdError(code, message)
+                }
+            })
+
+            onDispose {
+                adContainer?.removeAllViews()
             }
         }
-    )
+
+        AndroidView(
+            factory = { ctx ->
+                android.widget.LinearLayout(ctx).apply {
+                    orientation = android.widget.LinearLayout.VERTICAL
+                    layoutParams = android.view.ViewGroup.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    adContainer = this
+                }
+            }
+        )
+    }
 }
+
+
