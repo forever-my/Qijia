@@ -1,0 +1,73 @@
+{
+	"init": {
+		"site_id": "5724496",
+		"app_id": "795707",
+		"partner": "pangle_795707",
+		"secure_key": "5c81450be471f27e0dc90348ce425503",
+		"secure_key_d": "e927f395c0ad1588a00545d9e0a839f3"
+	},
+	"feed": {
+		"news_list_ad_code_id": "",
+		"news_first_ad_code_id": "",
+		"news_second_ad_code_id": "",
+		"video_first_ad_code_id": "",
+		"video_second_ad_code_id": "",
+		"related_ad_code_id": "",
+		"news_draw_ad_code_id": "968740915",
+		"news_draw_native_ad_code_id": "968740908",
+		"news_outer_list_ad_code_id": "",
+		"news_outer_first_ad_code_id": "",
+		"news_outer_second_ad_code_id": "",
+		"outer_video_second_ad_code_id": "",
+		"outer_related_ad_code_id": "",
+		"news_outer_draw_ad_code_id": "968740907",
+		"news_outer_draw_native_ad_code_id": "968740911",
+		"news_interstitial_code_id": ""
+	},
+	"small_video": {
+		"draw_ad_code_id": "968740905",
+		"draw_native_ad_code_id": "968740914",
+		"grid_ad_code_id": "968740901",
+		"grid_draw_ad_code_id": "968740902",
+		"grid_draw_native_ad_code_id": "968740910",
+		"video_card_ad_code_id": "968740903",
+		"video_card_draw_ad_code_id": "968740920",
+		"video_card_draw_native_ad_code_id": "968740919",
+		"interstitial_ad_code_id": "",
+		"interstitial_note_ad_code_id": "968740900",
+		"staggered_grid_ad_code_id": "968740912",
+		"staggered_grid_draw_ad_code_id": "968740905",
+		"staggered_grid_draw_native_ad_code_id": "968740914",
+		"draw_interstitial_ad_code_id": "968740917",
+		"draw_fullscreen_interstitial_ad_code_id": "968740918",
+		"draw_banner_code_id": "968740906",
+		"drama_rewarded_ad_code_id": "968740904",
+		"drama_rewarded_ad_code_id_02": "968740909",
+		"drama_draw_ad_code_id": "968740913",
+		"staggered_grid_ad_code_id_02": "968740916"
+	},
+	"novel": {
+		"status": 0,
+		"pre_ad_code_id": "",
+		"mid_ad_code_id": "",
+		"exciting_ad_code_id": "",
+		"interstitial_code_id": "",
+		"banner_ad_code_id": "",
+		"end_ad_code_id": ""
+	},
+	"live": null,
+	"license_config": [
+		{
+			"PackageName": "com.qijiavip.drama",
+			"BundleId": "com.qijiavip.drama",
+			"StartTime": "20250723T032326Z",
+			"ExpireTime": "20270723T032326Z",
+			"CreatedTime": "20250723T032326Z",
+			"Signature": "b3QA3IsRvWTNQCZWA1LDomMRPitVDPM2nmNU/ZE6pb3XGz9juxOHw9/4dpnMpA0dNZkuzvItjy8eIoUdaYZyJJLCYvgCOhuvtyzmhRm4/FKF4na3nOpfX06puH2zWvXM01HOyDbE8XJOqmU0F+qRU7DvuNDYlVnQsO1vT2xKJ0BaZzQTt5buVNdD0gxDAlpLBLwk5C1/gJXXR981DOJuybSJrEEVA+Y/2NgSgkUXXk1yAwgD7Z2TPNkpy2U5d/ohPH0AqdIRgqFPm+VEizeYYUQram9u+uEc3+MQp1y1vTIYpOpbLss/ZLUeeujTHoaTmgGqv+XmX5lOIWIDnBIEow==",
+			"Content": "eyJJZCI6IjE5NjQ4NTEyMDIiLCAiVmVyc2lvbiI6MiwgIkNoYW5uZWwiOiJhZF9jc2oiLCAiVHlwZSI6MiwgIlBhY2thZ2VOYW1lIjoiY29tLnFpamlhdmlwLmRyYW1hIiwgIkJ1bmRsZUlkIjoiY29tLnFpamlhdmlwLmRyYW1hIiwgIk1vZHVsZXMiOlt7Ik5hbWUiOiJ2b2RfcGxheSIsICJFZGl0aW9uIjoicHJlbWl1bV9lZGl0aW9uIiwgIlN0YXJ0VGltZSI6MTc1MzI0MTAwNjExMiwgIkV4cGlyZVRpbWUiOjE4MTYzMTMwMDYxMTIsICJFeHBpcmVCdWZmZXIiOjE1NTUyMDAwMDAwfV0sICJGaWxlVmVyc2lvbiI6IjE3NTMyNDEwMDYxMjQ4NjU4NDMifQ==",
+			"MainURL": "https://vod-license-m.volccdn.com/vod-license/l-1964851202-ch-ad_csj-a-795707.lic?lk3s=0d9f7a7d\u0026x-expires=4906841006\u0026x-signature=MCz%2FUEpiJYAHLwLL%2B8TMdyA3KLU%3D",
+			"BackupURL": "https://vod-license-b.volccdn.com/vod-license/l-1964851202-ch-ad_csj-a-795707.lic?lk3s=0d9f7a7d\u0026x-expires=4906841006\u0026x-signature=W7D9wKMm9yCoSq%2BPv5eTLI0qLqU%3D",
+			"Id": "1964851202"
+		}
+	]
+}

@@ -93,6 +93,13 @@ android {
     }
 }
 
+// 强制使用 constraint-layout 1.1.2 版本（小视频SDK要求）
+configurations.all {
+    resolutionStrategy {
+        force("com.android.support.constraint:constraint-layout:1.1.2")
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -143,8 +150,8 @@ dependencies {
     implementation("com.gitee.li_yu_jiang:Android_CN_OAID:4.2.16")
     
     // 华夏乐游广告SDK依赖
-    implementation("com.squareup.okhttp3:okhttp:3.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.12.0")
+    implementation("com.squareup.okhttp3:okhttp:3.12.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.12.1")
     implementation("com.google.code.gson:gson:2.8.0")
     implementation("com.github.bumptech.glide:glide:4.7.1")
     implementation("commons-codec:commons-codec:1.15")
@@ -160,14 +167,27 @@ dependencies {
         implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.2") // 小视频SDK要求
 
-    // uni-AD广告SDK（排除快手模块避免冲突）
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"), "exclude" to listOf("ks_adsdk-ad.aar", "uniad-ks-release.aar"))))
+    // uni-AD广告SDK（排除 open_ad_sdk.aar 避免与 ads-sdk-pro 冲突）
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"), "exclude" to listOf("open_ad_sdk.aar"))))
     implementation("com.github.bumptech.glide:glide:4.12.0")
-    
-    // 快手内容SDK（用于视频流）
-    implementation(files("libs/kssdk-ct-4.12.20.4-publishRelease-5fe79af37b.aar"))
 
+    // 穿山甲聚合SDK 2600+版本
+    implementation("com.pangle_beta.cn:mediation-sdk:7.1.0.5")
+    
+    // 穿山甲增长SDK（排除不需要的模块）
+    implementation("com.pangle.cn:pangrowth-sdk:4.8.0.0") {
+        exclude(group = "com.pangle.cn", module = "partner-live-sdk")
+        exclude(group = "com.pangle.cn", module = "pangrowth-novel-sdk")
+        exclude(group = "com.pangle.cn", module = "pangrowth-game-sdk")
+        exclude(group = "com.pangle.cn", module = "pangrowth-luckycat-sdk")
+        exclude(group = "com.pangle.cn", module = "pangrowth-reward-sdk")
+        exclude(group = "com.pangle.cn", module = "partner-luckycat-api-sdk")
+        exclude(group = "com.pangle.cn", module = "pangrowth-luckycat-api")
+    }
+
+    
 //    testImplementation(libs.junit)
 //    androidTestImplementation(libs.androidx.junit)
 //    androidTestImplementation(libs.androidx.espresso.core)

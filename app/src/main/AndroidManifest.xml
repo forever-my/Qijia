@@ -66,6 +66,13 @@
                 android:name="androidx.core.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        
+        <!-- 穿山甲小视频SDK必需的Provider -->
+        <provider
+            android:name="com.bytedance.sdk.dp.act.DPProvider"
+            android:authorities="${applicationId}.BDDPProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
